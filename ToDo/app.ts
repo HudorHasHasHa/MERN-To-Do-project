@@ -5,7 +5,6 @@ import "./config.js";
 import debug from 'debug';
 import cors from 'cors';
 import bodyParser from 'body-parser';
-
 import indexRouter from './routes/index.js';
 import eventRouter from './routes/events.js';
 
@@ -36,22 +35,22 @@ app.use((req, res, next) => {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
-        res.status(err['status'] || 500);
-        res.render('error', {
-            message: err.message,
-            error: err
-        });
+        res.status(err['status'] || 500)
+            .json({
+                message: err.message,
+                error: err
+            });
     });
 }
 
 // production error handler
 // no stacktraces leaked to the user
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: {}
-    });
+    res.status(err.status || 500)
+        .json({
+            message: err.message,
+            error: err
+        });
 });
 
 app.set('port', process.env.PORT || 3000);

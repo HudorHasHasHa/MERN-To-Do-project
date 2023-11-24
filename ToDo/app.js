@@ -27,8 +27,8 @@ app.use((req, res, next) => {
 // will print stacktrace
 if (app.get('env') === 'development') {
     app.use((err, req, res, next) => {
-        res.status(err['status'] || 500);
-        res.render('error', {
+        res.status(err['status'] || 500)
+            .json({
             message: err.message,
             error: err
         });
@@ -37,10 +37,10 @@ if (app.get('env') === 'development') {
 // production error handler
 // no stacktraces leaked to the user
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
-    res.render('error', {
+    res.status(err.status || 500)
+        .json({
         message: err.message,
-        error: {}
+        error: err
     });
 });
 app.set('port', process.env.PORT || 3000);
